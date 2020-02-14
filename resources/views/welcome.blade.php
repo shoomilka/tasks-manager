@@ -17,7 +17,7 @@
     </head>
     <body>
         <div id="app">
-        <navbar-component></navbar-component>
+            <navbar-component></navbar-component>
             <div class="container">
                 <tasks-component></tasks-component>
             </div>

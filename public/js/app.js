@@ -1929,6 +1929,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1966,6 +1968,23 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         return console.log(error);
       });
+    },
+    deleteTask: function deleteTask(task_id) {
+      var _this2 = this;
+
+      if (confirm("Are You Sure?")) {
+        fetch('/api/tasks/' + task_id, {
+          method: 'delete'
+        }).then(function (responce) {
+          return responce.json();
+        }).then(function (responce) {
+          _this2.fetchTasks();
+
+          alert('Task removed!');
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      }
     }
   }
 });
@@ -19622,7 +19641,22 @@ var render = function() {
         return _c("div", { key: task.id, staticClass: "card card-body" }, [
           _c("h3", [_vm._v(_vm._s(task.title))]),
           _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(task.description))])
+          _c("p", [_vm._v(_vm._s(task.description))]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              on: {
+                click: function($event) {
+                  return _vm.deleteTask(task.id)
+                }
+              }
+            },
+            [_vm._v("Delete")]
+          )
         ])
       }),
       _vm._v(" "),
@@ -19630,58 +19664,54 @@ var render = function() {
         "div",
         { staticClass: "text-xs-center", attrs: { "aria-label": "" } },
         [
-          _c(
-            "ul",
-            {
-              staticClass: "pagination",
-              staticStyle: { "padding-left": "45%" }
-            },
-            [
-              _vm.pagination.prev_page_url
-                ? _c("li", [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "page-link",
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.fetchTasks(_vm.pagination.prev_page_url)
-                          }
+          _c("ul", { staticClass: "pagination justify-content-center" }, [
+            _vm.pagination.prev_page_url
+              ? _c("li", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.fetchTasks(_vm.pagination.prev_page_url)
                         }
-                      },
-                      [_vm._v("«")]
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item" }, [
-                _c(
-                  "a",
-                  { staticClass: "page-link disabled", attrs: { href: "#" } },
-                  [_vm._v(_vm._s(_vm.pagination.current_page))]
+                      }
+                    },
+                    [_vm._v("«")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("li", { staticClass: "page-item disabled" }, [
+              _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+                _vm._v(
+                  "Page " +
+                    _vm._s(_vm.pagination.current_page) +
+                    " of " +
+                    _vm._s(_vm.pagination.last_page)
                 )
-              ]),
-              _vm._v(" "),
-              _vm.pagination.next_page_url
-                ? _c("li", [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "page-link",
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.fetchTasks(_vm.pagination.next_page_url)
-                          }
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.pagination.next_page_url
+              ? _c("li", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.fetchTasks(_vm.pagination.next_page_url)
                         }
-                      },
-                      [_vm._v("»")]
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
+                      }
+                    },
+                    [_vm._v("»")]
+                  )
+                ])
+              : _vm._e()
+          ])
         ]
       )
     ],

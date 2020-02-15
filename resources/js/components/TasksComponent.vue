@@ -6,12 +6,14 @@
         <div class="card card-body" v-for="task in tasks" v-bind:key="task.id">
             <h3>{{ task.title }}</h3>
             <p>{{ task.description }}</p>
+            <hr>
+            <button @click="deleteTask(task.id)" class="btn btn-danger">Delete</button>
         </div>
 
         <div aria-label="" class="text-xs-center">
-            <ul class="pagination" style="padding-left: 45%;">
+            <ul class="pagination justify-content-center">
                 <li v-if=pagination.prev_page_url><a class="page-link" href="#" @click="fetchTasks(pagination.prev_page_url)">&laquo;</a></li>
-                <li class="page-item"><a class="page-link disabled" href="#">{{ pagination.current_page }}</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page}}</a></li>
                 <li v-if=pagination.next_page_url><a class="page-link" href="#" @click="fetchTasks(pagination.next_page_url)">&raquo;</a></li>
             </ul>
         </div>
@@ -55,6 +57,19 @@
                     })
                     .catch(error => console.log(error))
             },
+            deleteTask(task_id){
+                if(confirm("Are You Sure?")){
+                    fetch('/api/tasks/' + task_id, {
+                        method: 'delete'
+                    })
+                    .then(responce => responce.json())
+                    .then(responce => {
+                        this.fetchTasks();
+                        alert('Task removed!');
+                    })
+                    .catch(error => console.log(error));
+                }
+            }
         }
     }
 </script>

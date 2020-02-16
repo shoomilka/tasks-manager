@@ -36,7 +36,14 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $task = new Task;
+
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+
+        if($task->save()) {
+            return $task;
+        }
     }
 
     /**
@@ -58,7 +65,7 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        Task::findOrFail($request->id);
     }
 
     /**

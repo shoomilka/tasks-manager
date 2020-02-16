@@ -1931,6 +1931,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1984,6 +1994,31 @@ __webpack_require__.r(__webpack_exports__);
         })["catch"](function (error) {
           return console.log(error);
         });
+      }
+    },
+    addTask: function addTask() {
+      var _this3 = this;
+
+      if (this.edit === false) {
+        // Add
+        fetch('/api/tasks/', {
+          method: 'post',
+          body: JSON.stringify(this.task),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (responce) {
+          return responce.json();
+        }).then(function (data) {
+          _this3.task.title = '';
+          _this3.task.description = '';
+          alert("Task Added");
+
+          _this3.fetchTasks();
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      } else {// Update
       }
     }
   }
@@ -19636,6 +19671,77 @@ var render = function() {
     {},
     [
       _c("h2", [_vm._v("Tasks")]),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass: "mb-3",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addTask($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "form-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.task.title,
+                  expression: "task.title"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Title of Task" },
+              domProps: { value: _vm.task.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.task, "title", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.task.description,
+                  expression: "task.description"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { placeholder: "Description of Task" },
+              domProps: { value: _vm.task.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.task, "description", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-light btn-block",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Save Task")]
+          )
+        ]
+      ),
       _vm._v(" "),
       _vm._l(_vm.tasks, function(task) {
         return _c("div", { key: task.id, staticClass: "card card-body" }, [

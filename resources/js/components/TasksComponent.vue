@@ -3,6 +3,16 @@
 
         <h2>Tasks</h2>
 
+        <form @submit.prevent="addTask" class="mb-3">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Title of Task" v-model="task.title">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" placeholder="Description of Task" v-model="task.description"></textarea>
+            </div>
+            <button type="submit" class="btn btn-light btn-block">Save Task</button>
+        </form>
+
         <div class="card card-body" v-for="task in tasks" v-bind:key="task.id">
             <h3>{{ task.title }}</h3>
             <p>{{ task.description }}</p>
@@ -68,6 +78,28 @@
                         alert('Task removed!');
                     })
                     .catch(error => console.log(error));
+                }
+            },
+            addTask(){
+                if(this.edit === false){
+                    // Add
+                    fetch('/api/tasks/', {
+                        method: 'post',
+                        body: JSON.stringify(this.task),
+                        headers: {
+                            'content-type': 'application/json'
+                        }
+                    })
+                    .then(responce => responce.json())
+                    .then(data => {
+                        this.task.title = '';
+                        this.task.description = '';
+                        alert("Task Added");
+                        this.fetchTasks();
+                    })
+                    .catch(error => console.log(error));
+                }else{
+                    // Update
                 }
             }
         }

@@ -54,14 +54,14 @@
                 page_url = page_url || '/api/tasks'
                 let vm = this;
                 fetch(page_url)
-                    .then(responce => responce.json())
-                    .then(responce => {
-                        this.tasks = responce.data;
+                    .then(response => response.json())
+                    .then(response => {
+                        this.tasks = response.data;
                         let pagination = {
-                            current_page: responce.current_page,
-                            last_page: responce.last_page,
-                            next_page_url: responce.next_page_url,
-                            prev_page_url: responce.prev_page_url,
+                            current_page: response.current_page,
+                            last_page: response.last_page,
+                            next_page_url: response.next_page_url,
+                            prev_page_url: response.prev_page_url,
                         };
                         this.pagination = pagination;
                     })
@@ -72,8 +72,8 @@
                     fetch('/api/tasks/' + task_id, {
                         method: 'delete'
                     })
-                    .then(responce => responce.json())
-                    .then(responce => {
+                    .then(response => response.json())
+                    .then(response => {
                         this.fetchTasks();
                         alert('Task removed!');
                     })
@@ -90,7 +90,7 @@
                             'content-type': 'application/json'
                         }
                     })
-                    .then(responce => responce.json())
+                    .then(response => response.json())
                     .then(data => {
                         this.task.title = '';
                         this.task.description = '';

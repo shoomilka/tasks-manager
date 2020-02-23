@@ -65,7 +65,7 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        Task::findOrFail($request->id);
+        return Task::findOrFail($request->id);
     }
 
     /**
@@ -77,7 +77,14 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $task = Task::findOrFail($id);
+
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+
+        if($task->save()) {
+            return $task;
+        }
     }
 
     /**

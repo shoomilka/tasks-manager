@@ -19,7 +19,7 @@
         <div id="app">
             <navbar-component></navbar-component>
             <div class="container">
-                <tasks-component></tasks-component>
+                <router-view></router-view>
             </div>
             
         </div>

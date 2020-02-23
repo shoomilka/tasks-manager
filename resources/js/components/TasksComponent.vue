@@ -17,6 +17,7 @@
             <h3>{{ task.title }}</h3>
             <p>{{ task.description }}</p>
             <hr>
+            <button @click="editTask(task)" class="btn btn-warning mb-2">Edit</button>
             <button @click="deleteTask(task.id)" class="btn btn-danger">Delete</button>
         </div>
 
@@ -100,7 +101,30 @@
                     .catch(error => console.log(error));
                 }else{
                     // Update
+                    fetch('/api/tasks/' + this.task_id, {
+                        method: 'put',
+                        body: JSON.stringify(this.task),
+                        headers: {
+                            'content-type': 'application/json',
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.edit = false;
+                        this.task.title = '';
+                        this.task.description = '';
+                        alert("Task Updated");
+                        this.fetchTasks();
+                    })
+                    .catch(error => console.log(error));
                 }
+            },
+            editTask(task){
+                this.edit = true;
+                this.task.id = task.id;
+                this.task_id = task.id;
+                this.task.title = task.title;
+                this.task.description = task.description;
             }
         }
     }
